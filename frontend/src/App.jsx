@@ -3,67 +3,59 @@ import axios from "axios";
 import "./App.css";
 
 function App() {
+  const API = "https://sanjaycrud.work.gd/users";
+
   const [users, setUsers] = useState([]);
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
-
   const [editId, setEditId] = useState(null);
-  const editUser = (user) => {
-  setName(user.name);
-  setEmail(user.email);
-  setEditId(user.id);
-};
-const updateUser = async () => {
-  await axios.put(
-    `https://sanjaycrud.work.gd/${editId}`,
-    {
-      name,
-      email
-    }
-  );
-
-  getUsers();
-  setName("");
-  setEmail("");
-  setEditId(null);
-};
-
-  const loadUsers = async () => {
-    const res = await axios.get("https://sanjaycrud.work.gd");
-    setUsers(res.data);
-  };
-  const deleteUser = async (id) => {
-  await axios.delete(`https://sanjaycrud.work.gd/${id}`);
-  getUsers();
-};
-
-
 
   useEffect(() => {
     loadUsers();
   }, []);
 
+  const loadUsers = async () => {
+    const res = await axios.get(API);
+    setUsers(res.data);
+  };
+
   const addUser = async () => {
-    await axios.post("https://sanjaycrud.work.gd", {
+    await axios.post(API, {
       name,
       email,
     });
-    await axios.put('https://sanjaycrud.work.gd/${id}',
-      {
-        name,
-        email
-      }
-    );
 
     setName("");
     setEmail("");
+    loadUsers();
+  };
 
+  const editUser = (user) => {
+    setName(user.name);
+    setEmail(user.email);
+    setEditId(user.id);
+  };
+
+  const updateUser = async () => {
+    await axios.put(`${API}/${editId}`, {
+      name,
+      email,
+    });
+
+    setName("");
+    setEmail("");
+    setEditId(null);
+    loadUsers();
+  };
+
+  const deleteUser = async (id) => {
+    await axios.delete(`${API}/${id}`);
     loadUsers();
   };
 
   return (
     <div style={{ padding: "20px" }}>
-      <h1>AWS RDS CRUD Project</h1>
+      <h1>AWS CRUD Project</h1>
 
       <input
         type="text"
@@ -82,10 +74,12 @@ const updateUser = async () => {
       />
 
       <br /><br />
+
       {editId ? (
-        <button onClick={updateUser}>Update User</button>):(
-      <button onClick={addUser}>Add User</button>)}
-      
+        <button onClick={updateUser}>Update User</button>
+      ) : (
+        <button onClick={addUser}>Add User</button>
+      )}
 
       <hr />
 
@@ -93,10 +87,18 @@ const updateUser = async () => {
 
       {users.map((user) => (
         <div key={user.id}>
-          <p><b>Name:</b> {user.name}</p>  
+          <p><b>Name:</b> {user.name}</p>
           <p><b>Email:</b> {user.email}</p>
-          <button onClick={() => deleteUser(user.id)}>Delete</button>
-          <button onClick={() => editUser(user)}>Update</button>
+
+          <button onClick={() => editUser(user)}>
+            Update
+          </button>
+
+          <button onClick={() => deleteUser(user.id)}>
+            Delete
+          </button>
+
+          <hr />
         </div>
       ))}
     </div>
