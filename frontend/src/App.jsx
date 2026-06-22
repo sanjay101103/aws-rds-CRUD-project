@@ -15,7 +15,7 @@ function App() {
 };
 const updateUser = async () => {
   await axios.put(
-    `http://56.228.73.237:3000/users/${editId}`,
+    `https://sanjaycrud/users/${editId}`,
     {
       name,
       email
@@ -29,11 +29,11 @@ const updateUser = async () => {
 };
 
   const loadUsers = async () => {
-    const res = await axios.get("http://56.228.73.237:3000/users");
+    const res = await axios.get("https://sanjaycrud/users");
     setUsers(res.data);
   };
   const deleteUser = async (id) => {
-  await axios.delete(`http://56.228.73.237:3000/users/${id}`);
+  await axios.delete(`https://sanjaycrud/users/${id}`);
   getUsers();
 };
 
@@ -44,11 +44,11 @@ const updateUser = async () => {
   }, []);
 
   const addUser = async () => {
-    await axios.post("http://56.228.73.237:3000/users", {
+    await axios.post("https://sanjaycrud/users", {
       name,
       email,
     });
-    await axios.put('http://56.228.73.237:3000/users/${id}',
+    await axios.put('https://sanjaycrud/users/${id}',
       {
         name,
         email
