@@ -15,7 +15,7 @@ function App() {
 };
 const updateUser = async () => {
   await axios.put(
-    `https://sanjaycrud/users/${editId}`,
+    `https://sanjaycrud.work.gd/users/${editId}`,
     {
       name,
       email
@@ -29,11 +29,11 @@ const updateUser = async () => {
 };
 
   const loadUsers = async () => {
-    const res = await axios.get("https://sanjaycrud/users");
+    const res = await axios.get("https://sanjaycrud.work.gd/users");
     setUsers(res.data);
   };
   const deleteUser = async (id) => {
-  await axios.delete(`https://sanjaycrud/users/${id}`);
+  await axios.delete(`https://sanjaycrud.work.gd/users/${id}`);
   getUsers();
 };
 
@@ -44,11 +44,11 @@ const updateUser = async () => {
   }, []);
 
   const addUser = async () => {
-    await axios.post("https://sanjaycrud/users", {
+    await axios.post("https://sanjaycrud.work.gd/users", {
       name,
       email,
     });
-    await axios.put('https://sanjaycrud/users/${id}',
+    await axios.put('https://sanjaycrud.work.gd/users/${id}',
       {
         name,
         email
